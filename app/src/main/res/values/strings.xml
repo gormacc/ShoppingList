@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ShoppingList</string>
+    <string name="sample_text">Sample text</string>
+    <string name="add_new_text">Dodaj nowy element</string>
+    <string name="add_new_desc">Wpisz nazwę produktu</string>
+    <string name="save">Zapisz</string>
+    <string name="cancel">Anuluj</string>
+    <string name="edit_element">Edytuj element</string>
+    <string name="edit_elem_desc">Wpisz nazwę produktu</string>
+    <string name="sort_setting_key">sortAlphabetic</string>
+    <string name="sort_setting_summary">Click to sort</string>
+    <string name="sort_setting_title">Sort alphabetically</string>
+    <string name="settings_fragment">settings_fragment</string>
+</resources>
