@@ -11,4 +11,5 @@
     <string name="sort_setting_summary">Click to sort</string>
     <string name="sort_setting_title">Sort alphabetically</string>
     <string name="settings_fragment">settings_fragment</string>
+    <string name="settings_title">Settings</string>
 </resources>

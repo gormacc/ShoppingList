@@ -8,10 +8,11 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
+import android.content.Intent
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         var fragment: PreferenceFragment
         if (savedInstanceState == null) {
             fragment = MyPreferenceFragment(myDataset, viewAdapter)
-            fragmentManager.beginTransaction().add(R.id.my_recycler_view, fragment, getString(R.string.settings_fragment))
+            fragmentManager.beginTransaction().replace(R.id.my_main_layout, fragment, getString(R.string.settings_fragment)).commit()
         }
 
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply{
@@ -114,6 +115,23 @@ class MainActivity : AppCompatActivity() {
 
             return super.onCreateView(inflater, container, savedInstanceState)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if (item != null) {
+            if(item.itemId == R.id.settings_button)
+            {
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
