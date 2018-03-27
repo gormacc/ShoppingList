@@ -73,7 +73,12 @@ class MyAdapter(private val myDataset: ArrayList<Product>) :
             prod.Desc = editText.text.toString()
             notifyItemChanged(position)
             db.updateProduct(myDataset[position])
-
+            if(ctx is MainActivity){
+                if(ctx.fragment.preferenceManager.sharedPreferences.getBoolean(ctx.getString(R.string.sort_setting_key), false)){
+                    myDataset.sortBy { it.Desc }
+                    notifyDataSetChanged()
+                }
+            }
         })
         builder.setNegativeButton(ctx.getString(R.string.cancel), { dialog, whichButton ->
             //pass

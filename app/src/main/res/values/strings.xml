@@ -12,4 +12,5 @@
     <string name="sort_setting_title">Sort alphabetically</string>
     <string name="settings_fragment">settings_fragment</string>
     <string name="settings_title">Settings</string>
+    <string name="font_size_setting">fontSize</string>
 </resources>
