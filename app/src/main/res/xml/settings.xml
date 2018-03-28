@@ -5,11 +5,7 @@
         android:title="@string/sort_setting_title"
         android:id="@+id/isSortedPreference"
         android:summary="@string/sort_setting_summary"
-        android:key="@string/sort_setting_key"/>
-
-    <EditTextPreference
-        android:title="Change font size"
-        android:summary="Enter new font size value"
-        android:key="@string/font_size_setting"/>
+        android:key="@string/sort_setting_key"
+        android:defaultValue="false"/>
 
 </PreferenceScreen>

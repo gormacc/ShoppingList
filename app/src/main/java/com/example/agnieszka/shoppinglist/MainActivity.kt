@@ -43,10 +43,14 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener {view ->
             showAddDialog(myDataset)
         }
+
+        if(fragment.preferenceManager!=null && fragment.preferenceManager.sharedPreferences.getBoolean(getString(R.string.sort_setting_key), false)){
+            myDataset.sortBy { it.Desc }
+            viewAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
         menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -57,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             var fm = fragmentManager.beginTransaction()
             var fab = findViewById<FloatingActionButton>(R.id.my_fab)
             if(!fragment.isAdded) {
-                fm.add(R.id.my_main_layout, fragment, getString(R.string.settings_fragment)).commit()
+                fm.replace(R.id.my_main_layout, fragment, getString(R.string.settings_fragment)).commit()
                 fab.hide()
             }
             else{
@@ -84,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             var prod = db.addProduct(editText.text.toString())
             myDataset.add(prod)
             viewAdapter.notifyItemInserted(viewAdapter.itemCount)
-            if(fragment.preferenceManager.sharedPreferences.getBoolean(getString(R.string.sort_setting_key), false)){
+            if(fragment.preferenceManager!=null && fragment.preferenceManager.sharedPreferences.getBoolean(getString(R.string.sort_setting_key), false)){
                 myDataset.sortBy { it.Desc }
                 viewAdapter.notifyDataSetChanged()
             }

@@ -74,7 +74,7 @@ class MyAdapter(private val myDataset: ArrayList<Product>) :
             notifyItemChanged(position)
             db.updateProduct(myDataset[position])
             if(ctx is MainActivity){
-                if(ctx.fragment.preferenceManager.sharedPreferences.getBoolean(ctx.getString(R.string.sort_setting_key), false)){
+                if(ctx.fragment.preferenceManager!=null && ctx.fragment.preferenceManager.sharedPreferences.getBoolean(ctx.getString(R.string.sort_setting_key), false)){
                     myDataset.sortBy { it.Desc }
                     notifyDataSetChanged()
                 }

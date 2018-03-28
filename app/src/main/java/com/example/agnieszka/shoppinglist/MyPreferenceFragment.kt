@@ -7,8 +7,6 @@ import android.preference.PreferenceFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 
 class MyPreferenceFragment() : PreferenceFragment(){
 
@@ -16,7 +14,7 @@ class MyPreferenceFragment() : PreferenceFragment(){
     lateinit var viewAdapter: MyAdapter
 
     @SuppressLint("ValidFragment")
-    constructor(dataset: ArrayList<Product>, adapter: MyAdapter) : this(){
+    constructor( dataset: ArrayList<Product>, adapter: MyAdapter) : this(){
         myDataset = dataset
         viewAdapter = adapter
     }
@@ -37,19 +35,6 @@ class MyPreferenceFragment() : PreferenceFragment(){
             else{
                 myDataset.sortBy { it.Id }
                 viewAdapter.notifyDataSetChanged()
-            }
-            true
-        }
-
-        var editPreference = preferenceManager.findPreference(this.getString(R.string.font_size_setting))
-        editPreference.setOnPreferenceChangeListener { preference, newValue ->
-
-            var value = newValue.toString().toFloatOrNull()
-            if(value == null){
-                Toast.makeText(activity ,"Insert numeric value", Toast.LENGTH_SHORT)
-            }
-            else{
-                activity.findViewById<TextView>(R.id.my_text_view).textSize = value
             }
             true
         }
