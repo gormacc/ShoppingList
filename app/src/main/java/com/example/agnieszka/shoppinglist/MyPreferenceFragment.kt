@@ -10,8 +10,8 @@ import android.view.ViewGroup
 
 class MyPreferenceFragment() : PreferenceFragment(){
 
-    lateinit var myDataset: ArrayList<Product>
-    lateinit var viewAdapter: MyAdapter
+    private lateinit var myDataset: ArrayList<Product>
+    private lateinit var viewAdapter: MyAdapter
 
     @SuppressLint("ValidFragment")
     constructor( dataset: ArrayList<Product>, adapter: MyAdapter) : this(){
@@ -27,7 +27,7 @@ class MyPreferenceFragment() : PreferenceFragment(){
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         var switchPreference = preferenceManager.findPreference(this.getString(R.string.sort_setting_key))
-        switchPreference.setOnPreferenceChangeListener { preference, newValue ->
+        switchPreference.setOnPreferenceChangeListener { _, newValue ->
             if(newValue == true) {
                 myDataset.sortBy { it.Desc }
                 viewAdapter.notifyDataSetChanged()

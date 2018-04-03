@@ -2,11 +2,13 @@ package com.example.agnieszka.shoppinglist
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -16,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var db: MySQLiteHelper
+    lateinit var db: MySQLiteHelper
     lateinit var viewAdapter: MyAdapter
     lateinit var myDataset: ArrayList<Product>
     lateinit var fragment: MyPreferenceFragment
@@ -33,21 +35,40 @@ class MainActivity : AppCompatActivity() {
 
         fragment = MyPreferenceFragment(myDataset, viewAdapter)
 
+        initializeRecyclerView()
+
+        var button = findViewById<FloatingActionButton>(R.id.my_fab)
+        button.setOnClickListener {
+            showAddDialog(myDataset)
+        }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.sort_setting_key), false)){
+            myDataset.sortBy { it.Desc }
+            viewAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun initializeRecyclerView(){
+
         recyclerView = findViewById<RecyclerView>(R.id.my_recycler_view).apply{
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
 
-        var button = findViewById<FloatingActionButton>(R.id.my_fab)
-        button.setOnClickListener {view ->
-            showAddDialog(myDataset)
+        val swipeHandler = object : SwipeToDeleteCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as MyAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
         }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        if(fragment.preferenceManager!=null && fragment.preferenceManager.sharedPreferences.getBoolean(getString(R.string.sort_setting_key), false)){
-            myDataset.sortBy { it.Desc }
-            viewAdapter.notifyDataSetChanged()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -83,9 +104,10 @@ class MainActivity : AppCompatActivity() {
 
         builder.setTitle(getString(R.string.add_new_text))
         builder.setMessage(getString(R.string.add_new_desc))
-        builder.setPositiveButton(getString(R.string.save), { dialog, whichButton ->
+        builder.setPositiveButton(getString(R.string.save), { _, _ ->
 
             var prod = db.addProduct(editText.text.toString())
+
             myDataset.add(prod)
             viewAdapter.notifyItemInserted(viewAdapter.itemCount)
             if(fragment.preferenceManager!=null && fragment.preferenceManager.sharedPreferences.getBoolean(getString(R.string.sort_setting_key), false)){
@@ -93,20 +115,14 @@ class MainActivity : AppCompatActivity() {
                 viewAdapter.notifyDataSetChanged()
             }
         })
-        builder.setNegativeButton(getString(R.string.cancel), { dialog, whichButton ->
+        builder.setNegativeButton(getString(R.string.cancel), { _, _ ->
             //pass
         })
         val b = builder.create()
         b.show()
-
     }
 }
 
-public class Product(var Id: Long, var Desc: String)
-
-
-
-
-
+class Product(var Id: Long, var Desc: String)
 
 

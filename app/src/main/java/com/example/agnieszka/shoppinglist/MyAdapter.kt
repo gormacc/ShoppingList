@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
 
 
@@ -28,22 +27,16 @@ class MyAdapter(private val myDataset: ArrayList<Product>) :
 
         db = MySQLiteHelper(parent.context)
 
-        val deleteButton = view.findViewById<ImageButton>(R.id.delete_button)
-
         val viewHolder = ViewHolder(view)
 
         viewHolder.textView.setOnClickListener { view ->
             showEditDialog(parent.context, viewHolder.adapterPosition)
         }
 
-        deleteButton.setOnClickListener {view ->
-            removeAt(viewHolder.adapterPosition)
-        }
-
         return viewHolder
     }
 
-    private fun removeAt(position: Int) {
+    fun removeAt(position: Int) {
         db.deleteProduct(Product(myDataset[position].Id, myDataset[position].Desc))
         myDataset.removeAt(position)
         notifyItemRemoved(position)

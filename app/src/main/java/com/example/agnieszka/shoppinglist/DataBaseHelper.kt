@@ -66,11 +66,8 @@ class MySQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 arrayOf(prod.Id.toString()))
 
         db.close()
-
         return i
-
     }
-
 
     fun deleteProduct(prod: Product) {
 
@@ -81,9 +78,7 @@ class MySQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 arrayOf(prod.Id.toString()))
 
         db.close()
-
     }
-
 
     companion object {
 
@@ -94,4 +89,5 @@ class MySQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private val KEY_ID = "id"
         private val KEY_NAME = "name"
     }
+
 }
